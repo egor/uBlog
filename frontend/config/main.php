@@ -48,6 +48,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/' => 'site/index',
+                '/contact' => 'site/contact',
+                '/about' => 'site/about',
                 '/blog' => '/blog/default/index',
                 '/blog/<url:[\-\w]+>' => '/blog/default/detail',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',

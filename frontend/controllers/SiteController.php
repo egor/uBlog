@@ -58,9 +58,11 @@ class SiteController extends FrontendController
     public function actions()
     {
         return [
+            /*
             'error' => [
                 'class' => \yii\web\ErrorAction::class,
             ],
+            */
             'captcha' => [
                 'class' => \yii\captcha\CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -75,7 +77,15 @@ class SiteController extends FrontendController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'main'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('index', ['page' => $page]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
     }
 
     /**
@@ -96,9 +106,19 @@ class SiteController extends FrontendController
 
         $model->password = '';
 
-        return $this->render('login', [
-            'model' => $model,
-        ]);
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'login'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('login', [
+                'page' => $page,
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
+
     }
 
     /**
@@ -120,6 +140,7 @@ class SiteController extends FrontendController
      */
     public function actionContact()
     {
+        /*
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
@@ -131,9 +152,19 @@ class SiteController extends FrontendController
             return $this->refresh();
         }
 
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+        */
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'contact'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('contact', [
+                'page' => $page
+                //'model' => $model,
+            ]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
     }
 
     /**
@@ -143,7 +174,15 @@ class SiteController extends FrontendController
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'about'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('about', ['page' => $page]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
     }
 
     /**
@@ -159,9 +198,18 @@ class SiteController extends FrontendController
             return $this->goHome();
         }
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'signup'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('signup', [
+                'page' => $page,
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
     }
 
     /**
@@ -182,9 +230,19 @@ class SiteController extends FrontendController
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
         }
 
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'requestPasswordResetToken'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('requestPasswordResetToken', [
+                'page' => $page,
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
+
     }
 
     /**
@@ -208,9 +266,18 @@ class SiteController extends FrontendController
             return $this->goHome();
         }
 
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'resetPassword'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('resetPassword', [
+                'page' => $page,
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
     }
 
     /**
@@ -252,8 +319,38 @@ class SiteController extends FrontendController
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
         }
 
-        return $this->render('resendVerificationEmail', [
-            'model' => $model
-        ]);
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'resendVerificationEmail'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            return $this->render('resendVerificationEmail', [
+                'page' => $page,
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
+    }
+
+    public function actionError()
+    {
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            if ($exception->statusCode == 404) {
+                $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = '404'";
+                $page = Yii::$app->db->createCommand($sql)->queryOne();
+                return $this->render('error404', ['page' => $page]);
+            }
+            $statusCode = $exception->statusCode;
+            $name = $exception->getName();
+            $message = $exception->getMessage();
+            return $this->render('error', [
+                'exception' => $exception,
+                'statusCode' => $statusCode,
+                'name' => $name . ' (#' . $statusCode . ')',
+                'message' => $message
+            ]);
+        }
     }
 }

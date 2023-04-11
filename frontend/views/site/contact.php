@@ -8,37 +8,41 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 use yii\captcha\Captcha;
 
-$this->title = 'Contact';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $page['meta_title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $page['meta_description']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page['meta_keywords']]);
+$this->params['breadcrumbs'][] = $page['menu_name'];
 ?>
-<div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="about-index">
+    <div class="p-5 mb-4 bg-transparent rounded-3">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-4"><?php echo $page['header']; ?></h1>
+        </div>
+    </div>
 
-    <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    </p>
+    <div class="body-content">
+        <?php echo $page['text']; ?>
+    </div>
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+            <?php
+            /*
+            $form = ActiveForm::begin(['id' => 'contact-form']);
+            echo $form->field($model, 'name')->textInput(['autofocus' => true]);
+            echo $form->field($model, 'email');
+            echo $form->field($model, 'subject');
+            echo $form->field($model, 'body')->textarea(['rows' => 6]);
 
-                <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'email') ?>
-
-                <?= $form->field($model, 'subject') ?>
-
-                <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
-
-                <?= $form->field($model, 'verifyCode')->widget(Captcha::class, [
+            echo $form->field($model, 'verifyCode')->widget(Captcha::class, [
                     'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-                ]) ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+            ]);
+            <div class="form-group">
+                <?php echo Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']); ?>
+            </div>
+            ActiveForm::end();
+            */
+            ?>
         </div>
     </div>
 

@@ -18,15 +18,22 @@ class DefaultController extends FrontendController
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => FrontBlog::find()->where($this->getDisplayConditions())->orderBy('`displayed_at` DESC'),
-            'pagination' => [
-                'pageSize' => FrontBlog::PAGINATION_PAGE_SIZE,
-                'defaultPageSize' => FrontBlog::PAGINATION_PAGE_SIZE,
-            ],
-        ]);
-        $this->view->title = 'Blog';
-        return $this->render('index', ['dataProvider' => $dataProvider]);
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'blog'";
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => FrontBlog::find()->where($this->getDisplayConditions())->orderBy('`displayed_at` DESC'),
+                'pagination' => [
+                    'pageSize' => FrontBlog::PAGINATION_PAGE_SIZE,
+                    'defaultPageSize' => FrontBlog::PAGINATION_PAGE_SIZE,
+                ],
+            ]);
+            return $this->render('index', ['page' => $page, 'dataProvider' => $dataProvider]);
+        } else {
+            return $this->render('//site/info', [
+                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
+            ]);
+        }
     }
 
     public function actionDetail($url) {

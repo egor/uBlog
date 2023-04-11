@@ -8,13 +8,16 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
-    'name' => 'AltAdmin CMS UBlog',
+    'name' => 'UBlog AltAdmin CMS',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
         'blog' => [
             'class' => 'backend\modules\blog\Module',
+        ],
+        'systemPageSetting' => [
+            'class' => 'backend\modules\systemPageSetting\Module',
         ],
     ],
     'components' => [

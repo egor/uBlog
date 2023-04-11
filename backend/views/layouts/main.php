@@ -21,6 +21,10 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/altadmin/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/altadmin/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/altadmin/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/altadmin/favicons/site.webmanifest">
     <?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
@@ -29,7 +33,7 @@ AppAsset::register($this);
 <header>
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => '<img src="/altadmin/favicons/favicon-32x32.png" style="height: 28px; margin-right: 0px; margin-top: -5px;" /> ' . Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
@@ -38,6 +42,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'Blog', 'url' => ['/blog/default/index'], 'active' => (Yii::$app->controller->module->id == 'blog' ? true : false)],
+        ['label' => 'System page setting', 'url' => ['/systemPageSetting/default/index'], 'active' => (Yii::$app->controller->module->id == 'systemPageSetting' ? true : false)],
         ['label' => 'Site', 'url' => ['../']],
     ];
     if (Yii::$app->user->isGuest) {

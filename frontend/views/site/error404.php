@@ -5,7 +5,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => $page['meta_descri
 $this->registerMetaTag(['name' => 'keywords', 'content' => $page['meta_keywords']]);
 $this->params['breadcrumbs'][] = $page['menu_name'];
 ?>
-<div class="about-index">
+<div class="error-index">
     <div class="p-5 mb-4 bg-transparent rounded-3">
         <div class="container-fluid py-5 text-center">
             <h1 class="display-4"><?php echo $page['header']; ?></h1>

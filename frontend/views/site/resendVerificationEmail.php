@@ -7,13 +7,13 @@
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
-$this->title = 'Resend verification email';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $page['meta_title'];
+$this->params['breadcrumbs'][] = $page['menu_name'];
 ?>
 <div class="site-resend-verification-email">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php echo Html::encode($page['header']); ?></h1>
 
-    <p>Please fill out your email. A verification email will be sent there.</p>
+    <?php echo $page['text']; ?>
 
     <div class="row">
         <div class="col-lg-5">

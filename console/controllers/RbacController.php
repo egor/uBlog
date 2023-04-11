@@ -56,13 +56,28 @@ class RbacController extends Controller
         $blogDefaultView->description = 'View blog post data';
         $auth->add($blogDefaultView);
 
+        //systemPageSetting
+        $systemPageSettingDefault = $auth->createPermission('manageSystemPageSettingDefault');
+        $systemPageSettingDefault->description = 'Manage system page setting';
+        $auth->add($systemPageSettingDefault);
+        $systemPageSettingDefaultIndex = $auth->createPermission('manageSystemPageSettingDefaultIndex');
+        $systemPageSettingDefaultIndex->description = 'View system page setting list';
+        $auth->add($systemPageSettingDefaultIndex);
+        $systemPageSettingDefaultUpdate = $auth->createPermission('manageSsystemPageSettingDefaultUpdate');
+        $systemPageSettingDefaultUpdate->description = 'Update system page setting post';
+        $auth->add($systemPageSettingDefaultUpdate);
+
         $auth->addChild($blogDefault, $blogDefaultIndex);
         $auth->addChild($blogDefault, $blogDefaultCreate);
         $auth->addChild($blogDefault, $blogDefaultUpdate);
         $auth->addChild($blogDefault, $blogDefaultDelete);
         $auth->addChild($blogDefault, $blogDefaultView);
 
+        $auth->addChild($systemPageSettingDefault, $systemPageSettingDefaultIndex);
+        $auth->addChild($systemPageSettingDefault, $systemPageSettingDefaultUpdate);
+
         $auth->addChild($admin, $blogDefault);
+        $auth->addChild($admin, $systemPageSettingDefault);
         $auth->addChild($moderator, $blogDefaultIndex);
         $auth->addChild($moderator, $blogDefaultView);
 

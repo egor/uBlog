@@ -7,13 +7,13 @@
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
-$this->title = 'Reset password';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $page['meta_title'];
+$this->params['breadcrumbs'][] = $page['menu_name'];;
 ?>
 <div class="site-reset-password">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php echo Html::encode($page['header']); ?></h1>
 
-    <p>Please choose your new password:</p>
+    <?php echo $page['text']; ?>
 
     <div class="row">
         <div class="col-lg-5">
