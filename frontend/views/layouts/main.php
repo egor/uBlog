@@ -76,6 +76,14 @@ AppAsset::register($this);
     </div>
 </main>
 
+<!-- Cookie Banner -->
+<div id="cb-cookie-banner" class="alert alert-dark text-center mb-0" role="alert">
+    <?php echo Yii::t('app', '🍪 We use cookies to ensure you get the best experience on our website.'); ?>
+    <button type="button" class="btn btn-primary btn-sm ms-3" onclick="window.cb_hideCookieBanner()">
+        <?php echo Yii::t('app', 'Okay'); ?>
+    </button>
+</div>
+
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
