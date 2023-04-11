@@ -12,6 +12,11 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'blog' => [
+            'class' => 'frontend\modules\blog\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -43,6 +48,9 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/' => 'site/index',
+                '/blog' => '/blog/default/index',
+                '/blog/<url:[\-\w]+>' => '/blog/default/detail',
+                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ]
         ],
     ],

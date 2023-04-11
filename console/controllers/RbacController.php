@@ -36,6 +36,36 @@ class RbacController extends Controller
         $auth->addChild($admin, $CMSAccess);
         $auth->addChild($moderator, $CMSAccess);
 
+        //blog
+        $blogDefault = $auth->createPermission('manageBlogDefault');
+        $blogDefault->description = 'Manage blog';
+        $auth->add($blogDefault);
+        $blogDefaultIndex = $auth->createPermission('manageBlogDefaultIndex');
+        $blogDefaultIndex->description = 'View blog list';
+        $auth->add($blogDefaultIndex);
+        $blogDefaultCreate = $auth->createPermission('manageBlogDefaultCreate');
+        $blogDefaultCreate->description = 'Create new blog post';
+        $auth->add($blogDefaultCreate);
+        $blogDefaultUpdate = $auth->createPermission('manageBlogDefaultUpdate');
+        $blogDefaultUpdate->description = 'Update blog post';
+        $auth->add($blogDefaultUpdate);
+        $blogDefaultDelete = $auth->createPermission('manageBlogDefaultDelete');
+        $blogDefaultDelete->description = 'Delete blog post';
+        $auth->add($blogDefaultDelete);
+        $blogDefaultView = $auth->createPermission('manageBlogDefaultView');
+        $blogDefaultView->description = 'View blog post data';
+        $auth->add($blogDefaultView);
+
+        $auth->addChild($blogDefault, $blogDefaultIndex);
+        $auth->addChild($blogDefault, $blogDefaultCreate);
+        $auth->addChild($blogDefault, $blogDefaultUpdate);
+        $auth->addChild($blogDefault, $blogDefaultDelete);
+        $auth->addChild($blogDefault, $blogDefaultView);
+
+        $auth->addChild($admin, $blogDefault);
+        $auth->addChild($moderator, $blogDefaultIndex);
+        $auth->addChild($moderator, $blogDefaultView);
+
         $userData = User::find()->all();
         foreach ($userData as $userValue) {
             $userRole = $userValue->role;

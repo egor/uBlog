@@ -36,11 +36,16 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Blog', 'url' => ['/blog']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+    } else {
+        if (Yii::$app->user->can('CMSAccess')) {
+            $menuItems[] = ['label' => 'CMS', 'url' => ['/altadmin']];
+        }
     }
 
     echo Nav::widget([

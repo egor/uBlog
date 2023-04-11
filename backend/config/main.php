@@ -8,13 +8,19 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'name' => 'AltAdmin CMS UBlog',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'blog' => [
+            'class' => 'backend\modules\blog\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'baseUrl' => '/altadmin'
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -37,14 +43,15 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/altadmin' => 'site/index',
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
