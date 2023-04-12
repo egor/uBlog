@@ -36,15 +36,21 @@ class DefaultController extends FrontendController
     }
 
     public function actionDetail($url) {
-        $sql = "SELECT * FROM `blog` WHERE `url` = :url " . GetDisplayConditions::blogPost('AND') . " LIMIT 1";
-        $sqlParams = [':url' => $url];
-        $blog = Yii::$app->db->createCommand($sql, $sqlParams)->queryOne();
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'blog' " . GetDisplayConditions::systemPage('AND');
+        $page = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($page) {
+            $sql = "SELECT * FROM `blog` WHERE `url` = :url " . GetDisplayConditions::blogPost('AND') . " LIMIT 1";
+            $sqlParams = [':url' => $url];
+            $blog = Yii::$app->db->createCommand($sql, $sqlParams)->queryOne();
 
-        if ($blog) {
-            $this->view->title = $blog['meta_title'];
-            $this->view->registerMetaTag(['name' => 'description', 'content' => $blog['meta_description']]);
-            $this->view->registerMetaTag(['name' => 'keywords', 'content' => $blog['meta_keywords']]);
-            return $this->render('detail', ['blog' => $blog]);
+            if ($blog) {
+                $this->view->title = $blog['meta_title'];
+                $this->view->registerMetaTag(['name' => 'description', 'content' => $blog['meta_description']]);
+                $this->view->registerMetaTag(['name' => 'keywords', 'content' => $blog['meta_keywords']]);
+                return $this->render('detail', ['blog' => $blog, 'page' => $page]);
+            } else {
+                throw new \yii\web\NotFoundHttpException();
+            }
         } else {
             throw new \yii\web\NotFoundHttpException();
         }
