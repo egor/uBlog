@@ -63,7 +63,7 @@ class RbacController extends Controller
         $systemPageSettingDefaultIndex = $auth->createPermission('manageSystemPageSettingDefaultIndex');
         $systemPageSettingDefaultIndex->description = 'View system page setting list';
         $auth->add($systemPageSettingDefaultIndex);
-        $systemPageSettingDefaultUpdate = $auth->createPermission('manageSsystemPageSettingDefaultUpdate');
+        $systemPageSettingDefaultUpdate = $auth->createPermission('manageSystemPageSettingDefaultUpdate');
         $systemPageSettingDefaultUpdate->description = 'Update system page setting post';
         $auth->add($systemPageSettingDefaultUpdate);
 

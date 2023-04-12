@@ -54,7 +54,7 @@ use vova07\imperavi\Widget;
         echo Html::submitButton(Yii::t('app', 'Save and exit'), ['class' => 'btn btn-dark', 'name' => 'saveAndExit']) . ' &nbsp; ';
         echo Html::submitButton(Yii::t('app', 'Save and go to page'), ['class' => 'btn btn-dark', 'name' => 'saveAndGoToPage']) . ' &nbsp; ';
         if (!$model->isNewRecord) {
-            echo '<a href="/' . $model->url . '" class="btn btn-light">' . Yii::t('app', 'Cancel and go to page') . '</a>';
+            echo '<a href="/' . ($model->page_key == 'main' ? '' : $model->url) . '" class="btn btn-light">' . Yii::t('app', 'Cancel and go to page') . '</a>';
         }
         echo '<a href="/altadmin/systemPageSetting" class="btn btn-light">' . Yii::t('app', 'Cancel') . '</a>';
         ?>
