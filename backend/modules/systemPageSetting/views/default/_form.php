@@ -18,7 +18,7 @@ use vova07\imperavi\Widget;
         ALTSystemPageSetting::STATUS_SHOW_EVERYONE => Yii::t('app', 'Show to anyone'),
         ALTSystemPageSetting::STATUS_SHOW_ONLY_TO_GUEST => Yii::t('app', 'Show only to guests'),
         ALTSystemPageSetting::STATUS_SHOW_ONLY_TO_AUTH => Yii::t('app', 'Show only authorized user'),
-    ], ['disabled' => ($model->page_key == 'main' ? true : false) /*'prompt' => Yii::t('app', 'Select post status')*/]);
+    ], ['disabled' => ($model->page_key == 'main' || $model->page_key == '404' ? true : false) /*'prompt' => Yii::t('app', 'Select post status')*/]);
 
     echo $form->field($model, 'meta_title')->textInput(['maxlength' => true]);
     echo $form->field($model, 'meta_keywords')->textInput(['maxlength' => true]);

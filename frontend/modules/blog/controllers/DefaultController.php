@@ -2,6 +2,7 @@
 
 namespace frontend\modules\blog\controllers;
 
+use frontend\components\GetDisplayConditions;
 use frontend\controllers\FrontendController;
 use yii\data\ActiveDataProvider;
 use frontend\models\FrontBlog;
@@ -18,11 +19,11 @@ class DefaultController extends FrontendController
      */
     public function actionIndex()
     {
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'blog'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'blog' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             $dataProvider = new ActiveDataProvider([
-                'query' => FrontBlog::find()->where($this->getDisplayConditions())->orderBy('`displayed_at` DESC'),
+                'query' => FrontBlog::find()->where(GetDisplayConditions::blogPost())->orderBy('`displayed_at` DESC'),
                 'pagination' => [
                     'pageSize' => FrontBlog::PAGINATION_PAGE_SIZE,
                     'defaultPageSize' => FrontBlog::PAGINATION_PAGE_SIZE,
@@ -30,14 +31,12 @@ class DefaultController extends FrontendController
             ]);
             return $this->render('index', ['page' => $page, 'dataProvider' => $dataProvider]);
         } else {
-            return $this->render('//site/info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
     }
 
     public function actionDetail($url) {
-        $sql = "SELECT * FROM `blog` WHERE `url` = :url " . $this->getDisplayConditions('AND') . " LIMIT 1";
+        $sql = "SELECT * FROM `blog` WHERE `url` = :url " . GetDisplayConditions::blogPost('AND') . " LIMIT 1";
         $sqlParams = [':url' => $url];
         $blog = Yii::$app->db->createCommand($sql, $sqlParams)->queryOne();
 
@@ -51,16 +50,4 @@ class DefaultController extends FrontendController
         }
     }
 
-    public function getDisplayConditions($prefix = '') {
-        if (Yii::$app->user->can('manageBlogDefaultIndex')) {
-            return '';
-        }
-        $status = FrontBlog::STATUS_SHOW_EVERYONE;
-        if (Yii::$app->user->isGuest) {
-            $status .= ',' . FrontBlog::STATUS_SHOW_ONLY_TO_GUEST;
-        } else {
-            $status .= ',' . FrontBlog::STATUS_SHOW_ONLY_TO_AUTH;
-        }
-        return ' ' . $prefix . ' `displayed_at` <= ' . time() . ' AND `status` IN (' . $status . ') ';
-    }
 }

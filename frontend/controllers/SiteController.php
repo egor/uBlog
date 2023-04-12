@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\SystemPageSetting;
+use frontend\components\GetDisplayConditions;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -106,7 +108,7 @@ class SiteController extends FrontendController
 
         $model->password = '';
 
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'login'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'login' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             return $this->render('login', [
@@ -114,9 +116,7 @@ class SiteController extends FrontendController
                 'model' => $model,
             ]);
         } else {
-            return $this->render('info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
 
     }
@@ -153,7 +153,7 @@ class SiteController extends FrontendController
         }
 
         */
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'contact'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'contact' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             return $this->render('contact', [
@@ -161,9 +161,7 @@ class SiteController extends FrontendController
                 //'model' => $model,
             ]);
         } else {
-            return $this->render('info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
     }
 
@@ -174,14 +172,12 @@ class SiteController extends FrontendController
      */
     public function actionAbout()
     {
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'about'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'about' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             return $this->render('about', ['page' => $page]);
         } else {
-            return $this->render('info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
     }
 
@@ -198,7 +194,7 @@ class SiteController extends FrontendController
             return $this->goHome();
         }
 
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'signup'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'signup' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             return $this->render('signup', [
@@ -206,9 +202,7 @@ class SiteController extends FrontendController
                 'model' => $model,
             ]);
         } else {
-            return $this->render('info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
     }
 
@@ -230,7 +224,7 @@ class SiteController extends FrontendController
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
         }
 
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'requestPasswordResetToken'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'requestPasswordResetToken' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             return $this->render('requestPasswordResetToken', [
@@ -238,9 +232,7 @@ class SiteController extends FrontendController
                 'model' => $model,
             ]);
         } else {
-            return $this->render('info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
 
     }
@@ -266,7 +258,7 @@ class SiteController extends FrontendController
             return $this->goHome();
         }
 
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'resetPassword'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'resetPassword' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             return $this->render('resetPassword', [
@@ -274,9 +266,7 @@ class SiteController extends FrontendController
                 'model' => $model,
             ]);
         } else {
-            return $this->render('info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
     }
 
@@ -319,7 +309,7 @@ class SiteController extends FrontendController
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
         }
 
-        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'resendVerificationEmail'";
+        $sql = "SELECT * FROM `system_page_setting` WHERE `page_key` = 'resendVerificationEmail' " . GetDisplayConditions::systemPage('AND');
         $page = Yii::$app->db->createCommand($sql)->queryOne();
         if ($page) {
             return $this->render('resendVerificationEmail', [
@@ -327,9 +317,7 @@ class SiteController extends FrontendController
                 'model' => $model,
             ]);
         } else {
-            return $this->render('info', [
-                'page' => ['meta_title' => Yii::t('app', 'Error'), 'header' => Yii::t('app', 'Something went wrong. Check UBlog settings.'), 'text' => '']
-            ]);
+            throw new \yii\web\NotFoundHttpException();
         }
     }
 
