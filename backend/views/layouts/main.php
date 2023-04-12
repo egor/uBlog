@@ -42,6 +42,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'Blog', 'url' => ['/blog/default/index'], 'active' => (Yii::$app->controller->module->id == 'blog' ? true : false)],
+        ['label' => 'Page', 'url' => ['/page/default/index'], 'active' => (Yii::$app->controller->module->id == 'page' ? true : false)],
         ['label' => 'System page setting', 'url' => ['/systemPageSetting/default/index'], 'active' => (Yii::$app->controller->module->id == 'systemPageSetting' ? true : false)],
         ['label' => 'Site', 'url' => ['../']],
     ];

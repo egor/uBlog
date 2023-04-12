@@ -16,6 +16,9 @@ return [
         'blog' => [
             'class' => 'frontend\modules\blog\Module',
         ],
+        'page' => [
+            'class' => 'frontend\modules\page\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -53,6 +56,7 @@ return [
                 '/blog' => '/blog/default/index',
                 '/blog/<url:[\-\w]+>' => '/blog/default/detail',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+                '<url:[\-\w]+>' => '/page/default/index',
             ]
         ],
     ],

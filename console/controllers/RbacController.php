@@ -67,6 +67,26 @@ class RbacController extends Controller
         $systemPageSettingDefaultUpdate->description = 'Update system page setting post';
         $auth->add($systemPageSettingDefaultUpdate);
 
+        //page
+        $pageDefault = $auth->createPermission('managePageDefault');
+        $pageDefault->description = 'Manage page';
+        $auth->add($pageDefault);
+        $pageDefaultIndex = $auth->createPermission('managePageDefaultIndex');
+        $pageDefaultIndex->description = 'View page list';
+        $auth->add($pageDefaultIndex);
+        $pageDefaultCreate = $auth->createPermission('managePageDefaultCreate');
+        $pageDefaultCreate->description = 'Create new page post';
+        $auth->add($pageDefaultCreate);
+        $pageDefaultUpdate = $auth->createPermission('managePageDefaultUpdate');
+        $pageDefaultUpdate->description = 'Update page post';
+        $auth->add($pageDefaultUpdate);
+        $pageDefaultDelete = $auth->createPermission('managePageDefaultDelete');
+        $pageDefaultDelete->description = 'Delete page post';
+        $auth->add($pageDefaultDelete);
+        $pageDefaultView = $auth->createPermission('managePageDefaultView');
+        $pageDefaultView->description = 'View page post data';
+        $auth->add($pageDefaultView);
+
         $auth->addChild($blogDefault, $blogDefaultIndex);
         $auth->addChild($blogDefault, $blogDefaultCreate);
         $auth->addChild($blogDefault, $blogDefaultUpdate);
@@ -76,10 +96,20 @@ class RbacController extends Controller
         $auth->addChild($systemPageSettingDefault, $systemPageSettingDefaultIndex);
         $auth->addChild($systemPageSettingDefault, $systemPageSettingDefaultUpdate);
 
+        $auth->addChild($pageDefault, $pageDefaultIndex);
+        $auth->addChild($pageDefault, $pageDefaultCreate);
+        $auth->addChild($pageDefault, $pageDefaultUpdate);
+        $auth->addChild($pageDefault, $pageDefaultDelete);
+        $auth->addChild($pageDefault, $pageDefaultView);
+
         $auth->addChild($admin, $blogDefault);
         $auth->addChild($admin, $systemPageSettingDefault);
+        $auth->addChild($admin, $pageDefault);
+
         $auth->addChild($moderator, $blogDefaultIndex);
         $auth->addChild($moderator, $blogDefaultView);
+        $auth->addChild($moderator, $pageDefaultIndex);
+        $auth->addChild($moderator, $pageDefaultView);
 
         $userData = User::find()->all();
         foreach ($userData as $userValue) {

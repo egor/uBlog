@@ -19,6 +19,9 @@ return [
         'systemPageSetting' => [
             'class' => 'backend\modules\systemPageSetting\Module',
         ],
+        'page' => [
+            'class' => 'backend\modules\page\Module',
+        ],
     ],
     'components' => [
         'request' => [
