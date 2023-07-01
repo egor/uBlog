@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use yii\bootstrap5\ActiveForm;
 use kartik\date\DatePicker;
 use common\models\Blog;
+use kartik\select2\Select2;
+use yii\web\JsExpression;
 
 /** @var yii\web\View $this */
 /** @var backend\models\ALTBlog $model */
@@ -49,11 +51,44 @@ use common\models\Blog;
     echo $form->field($model, 'header')->textInput(['maxlength' => true]);
     echo $form->field($model, 'short_text')->textarea(['rows' => 6]);
     echo $form->field($model, 'text')->textarea(['rows' => 36]);
+    //echo $form->field($model, 'tags')->textInput(['maxlength' => true]);
+    ?>
+    <div class="row">
+        <div class="col">
+    <?php
+
+
+    //$model->tags =  ['red', 'green']; // initial value
+    echo $form->field($model, 'tags')->widget(Select2::classname(), [
+        'data' => [],
+        'options' => ['placeholder' => 'Select a tag ...', 'multiple' => true],
+        'pluginOptions' => [
+            'tags' => true,
+            'tokenSeparators' => [',', ' '],
+            'maximumInputLength' => 10,
+            'ajax' => [
+                'url' => '/altadmin/tag/default/get-list',
+                'dataType' => 'json',
+                'data' => new JsExpression('function(params) { return {q:params.term}; }')
+            ],
+            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+            'templateResult' => new JsExpression('function(tags) { return tags.text; }'),
+            'templateSelection' => new JsExpression('function (tags) { return tags.text; }'),
+        ],
+    ])->label('Tag Multiple');
+
 
 
     ?>
-
-    <div class="form-group float-end">
+        </div>
+    </div>
+    <style>
+        .select2-container--krajee-bs5 .select2-selection--multiple .select2-selection__choice{
+            /*display: none;*/
+            float:left;
+        }
+    </style>
+    <div class="form-group float-end pb-5">
         <?php
         echo Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success', 'name' => 'save']) . ' &nbsp; ';
         echo Html::submitButton(Yii::t('app', 'Save and exit'), ['class' => 'btn btn-dark', 'name' => 'saveAndExit']) . ' &nbsp; ';

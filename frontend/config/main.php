@@ -55,6 +55,8 @@ return [
                 '/about' => 'site/about',
                 '/blog' => '/blog/default/index',
                 '/blog/<url:[\-\w]+>' => '/blog/default/detail',
+                '/blog/tag' => '/blog/tag/index',
+                '/blog/tag/<url:[\-\w]+>' => '/blog/tag/detail',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
                 '<url:[\-\w]+>' => '/page/default/index',
             ]

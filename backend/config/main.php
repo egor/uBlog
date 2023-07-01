@@ -22,6 +22,9 @@ return [
         'page' => [
             'class' => 'backend\modules\page\Module',
         ],
+        'tag' => [
+            'class' => 'backend\modules\tag\Module',
+        ],
     ],
     'components' => [
         'request' => [

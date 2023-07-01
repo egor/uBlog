@@ -42,6 +42,8 @@ class Blog extends \yii\db\ActiveRecord
     const STATUS_SHOW_ONLY_TO_AUTH = 3;
 
     const PAGINATION_PAGE_SIZE = 5;
+
+    public $tags = '';
     /**
      * {@inheritdoc}
      */
@@ -70,6 +72,7 @@ class Blog extends \yii\db\ActiveRecord
             [['url', 'meta_title', 'meta_keywords', 'meta_description', 'menu_name', 'header'], 'string', 'max' => 255],
             [['url'], 'unique'],
             ['displayed_at', 'datetime', 'timestampAttribute' => 'displayed_at', 'format' => 'php:d.m.Y H:i'],
+            ['tags', 'safe'],
         ];
     }
 
@@ -92,6 +95,7 @@ class Blog extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'displayed_at' => Yii::t('app', 'Displayed At'),
+            'tags' => Yii::t('app', 'Tags'),
         ];
     }
 
@@ -102,5 +106,12 @@ class Blog extends \yii\db\ActiveRecord
     public static function find()
     {
         return new BlogQuery(get_called_class());
+    }
+
+    public function getTagList()
+    {
+        return $this
+            ->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->viaTable('blog_tag', ['blog_id' => 'id']);
     }
 }

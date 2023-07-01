@@ -5,6 +5,7 @@ namespace backend\modules\blog\controllers;
 use backend\models\ALTBlog;
 use common\models\Blog;
 use common\models\BlogSearch;
+use common\models\BlogTag;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -142,7 +143,30 @@ class DefaultController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $tags = BlogTag::find()->with('tag')->where(['blog_id' => $id])->all();
+        if ($tags) {
+            $tagArr = [];
+            foreach ($tags as $tag) {
+                $tagArr[] = $tag['tag']['name'];
+            }
+            $model->tags = $tagArr;
+        }
 
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                if ($model->save()) {
+                    if (isset($_POST['saveAndExit'])) {
+                        return $this->redirect(['index']);
+                    } else if (isset($_POST['saveAndGoToPage'])) {
+                        return $this->redirect('/blog/' . $model->url);
+                    }
+                }
+            }
+        }
+        if (is_int($model->displayed_at)) {
+            $model->displayed_at = date('d.m.Y H:i', $model->displayed_at);
+        }
+        /*
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             if (isset($_POST['saveAndExit'])) {
                 return $this->redirect(['index']);
@@ -152,6 +176,7 @@ class DefaultController extends Controller
         } else {
             $model->displayed_at = date('d.m.Y H:i', $model->displayed_at);
         }
+        */
         return $this->render('update', [
             'model' => $model,
         ]);
